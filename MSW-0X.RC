@@ -1,0 +1,86 @@
+
+#include <windows.h>
+#include "0x.h"
+rcinclude msw-0x.dlg
+
+0x            ICON      "msw-0x.ico"
+
+0x MENU
+    BEGIN
+    POPUP "&Game"
+	BEGIN
+	MENUITEM "&New\tF2",        IDM_NEW
+	    MENUITEM SEPARATOR
+	MENUITEM "&Statistics",        IDM_STATISTICS
+	    MENUITEM SEPARATOR
+	MENUITEM "E&xit",           IDM_EXIT
+	END
+    POPUP "&Skill"
+	BEGIN
+		MENUITEM "&Novice",                     IDM_SKILL2
+		MENUITEM "&Expert",                     IDM_SKILL3
+		MENUITEM "&Master",                     IDM_SKILL5
+		END
+     POPUP "&View"
+	BEGIN
+		MENUITEM "Zoom &In\tCtrl+I",            IDM_ZOOMIN
+		MENUITEM "Zoom &Out\tCtrl+O",           IDM_ZOOMOUT
+	    MENUITEM SEPARATOR
+		MENUITEM "&Center",             IDM_CENTERIZE
+	    MENUITEM SEPARATOR
+		MENUITEM "&Computers last",             IDM_COMPUTERSLAST
+		END
+	POPUP "&Options"        
+		BEGIN
+		POPUP "&Users Piece"    
+			BEGIN
+			MENUITEM "&Nought",             IDM_NOUGHT
+			MENUITEM "&Cross",              IDM_CROSS
+			END
+		POPUP "&Who begins a game"      
+			BEGIN
+			MENUITEM "&User",               IDM_FIRST_USER
+			MENUITEM "&Computer",           IDM_FIRST_COMPUTER
+			MENUITEM "&Alternating",        IDM_FIRST_ALTERNATING
+			MENUITEM "&Random",             IDM_FIRST_RANDOM
+			END
+		POPUP "&Rows of Five"   
+			BEGIN
+			MENUITEM "&1",          IDM_ROWS_1
+			MENUITEM "&2",          IDM_ROWS_2
+			MENUITEM "&3",          IDM_ROWS_3
+			MENUITEM "&4",          IDM_ROWS_4
+			MENUITEM "&5",          IDM_ROWS_5
+			MENUITEM "&6",          IDM_ROWS_6
+			MENUITEM "&7",          IDM_ROWS_7
+			MENUITEM "&8",          IDM_ROWS_8
+			MENUITEM "&9",          IDM_ROWS_9
+			END
+	    MENUITEM SEPARATOR
+		MENUITEM "&Background Processing",              IDM_BACKGROUNDPROCESSING
+
+		END
+     POPUP "&Cheat"
+		BEGIN
+		MENUITEM "&Undo",            IDM_UNDO
+		MENUITEM "&Hint",           IDM_HINT
+		END
+   POPUP "&Help"
+	BEGIN
+	MENUITEM "&Index...\tF1",   IDM_HELP
+	MENUITEM "&How to play",    IDM_HELPHOW
+	MENUITEM "&Commands",       IDM_HELPCOMMANDS
+	MENUITEM "&Keyboard",       IDM_HELPKEYBOARD
+	MENUITEM "&Using Help",     IDM_HELPUSING
+	    MENUITEM SEPARATOR
+	MENUITEM "&Copyright",       IDM_HELPCOPYRIGHT
+	    MENUITEM "&About Noughts and Crosses...",   IDM_ABOUT
+	END
+    END
+
+0x ACCELERATORS
+    {
+    VK_F2, IDM_NEW, VIRTKEY
+    073, IDM_ZOOMIN, VIRTKEY, CONTROL
+    079, IDM_ZOOMOUT, VIRTKEY, CONTROL
+    }

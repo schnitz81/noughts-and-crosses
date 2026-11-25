@@ -1,0 +1,31 @@
+ABOUTDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 67, 42, 152, 128
+STYLE WS_VISIBLE | DS_MODALFRAME | WS_POPUP
+BEGIN
+    CONTROL "Noughts and Crosses", 100, "static", SS_CENTER | WS_CHILD, 56, 12, 70, 8
+    CONTROL "Version 1.1", 101, "static", SS_CENTER | WS_CHILD, 56, 26, 70, 8
+    CONTROL "Copyright © 1993-1994", 102, "static", SS_CENTER | WS_CHILD, 56, 38, 70, 8
+    CONTROL "Pentti Moilanen", 103, "static", SS_CENTER | WS_CHILD, 56, 46, 70, 8
+    CONTROL "", 103, "static", SS_CENTER | WS_CHILD, 56, 54, 70, 8
+    CONTROL "This program is free software", 104, "static", SS_CENTER | WS_CHILD, 0, 64, 152, 8
+    CONTROL "you can redistribute it and/or", 105, "static", SS_CENTER | WS_CHILD, 0, 72, 152, 8
+    CONTROL "modify it under the terms of the", 106, "static", SS_CENTER | WS_CHILD, 0, 80, 152, 8
+    CONTROL "GNU General Public License", 107, "static", SS_CENTER | WS_CHILD, 0, 88, 152, 8
+    CONTROL "Internet: pentti.moilanen@hut.fi", 108, "static", SS_CENTER | WS_CHILD, 2, 120, 148, 8
+    CONTROL "0x", 109, "static", SS_ICON | WS_CHILD, 30, 25, 12, 12
+    CONTROL "OK", IDD_OK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 42, 102, 66, 14
+END
+
+STATISTICSDLG DIALOG LOADONCALL MOVEABLE DISCARDABLE 83, 36, 125, 103
+STYLE WS_VISIBLE | DS_MODALFRAME | WS_POPUP
+BEGIN 
+    CONTROL "Statistics", 100, "static", SS_CENTER | WS_CHILD, 25, 17, 72, 8
+    CONTROL "Wins", 101, "static", SS_CENTER | WS_CHILD, 12, 35, 27, 8
+    CONTROL "0", IDD_WINS, "static", SS_CENTER | WS_CHILD, 12, 46, 27, 8
+    CONTROL "Losses", 102, "static", SS_CENTER | WS_CHILD, 44, 35, 34, 8
+    CONTROL "0", IDD_LOSSES, "static", SS_CENTER | WS_CHILD, 44, 46, 34, 8
+    CONTROL "OK", IDD_OK, "button", BS_DEFPUSHBUTTON | WS_TABSTOP | WS_CHILD, 42, 73, 39, 14
+    CONTROL "Wins/All", 103, "static", SS_CENTER | WS_CHILD, 78, 35, 33, 8
+    CONTROL "0", IDD_PERCENT, "static", SS_CENTER | WS_CHILD, 78, 46, 33, 8
+END
+
+

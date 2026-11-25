@@ -1,0 +1,132 @@
+
+
+My goal in designing the algorithm was to make the program to be
+interesting to play against. That means, I didn't want to
+find the best defencing startegy, because that would cause the
+program to block all possible attacks, and the user would
+think the program is a pain in the ass to play against.
+
+I wanted the program to play agressively creating open positions,
+and defencing the minimum amount necessary not to lose silly games.
+
+--------
+
+The Board data structure
+
+It is mallocated at runtime as short[65][64][2]. The playing area is 62x62.
+There is one empty square on each side of the playing area to allow
+more relaxed cheking for pointer overflow in some parts of the algoritm.
+
+For one square there are two shorts. One is for noughts and one is
+for crosses.
+If a square has a nought on it, then that squares nought-short has a value
+between 0x8FFC and 0x8FFF, and the cross-short value is undefined.
+If the square is empty, then the both shorts have some value between
+0x0000-0x8000. values bigger than 0x2000 are extremely unlikely.
+
+A square can gain value from all 8 directions and values from all directions are added.
+
+The program counts how many pieces there are already on a row, 
+if a resulting row has both ends open
+and if the resulting row is continuous.
+
+For example a row of 
+X00 0     0 0
+   ^ ^     ^ ^
+   1 2     3 4
+
+Values for empty squares 1,2,3 and 4 are calculated from facts:
+1: already three pieces, resulting row continuous, both ends not open
+2: already three pieces, resulting row noncontinuous, both ends not open
+3: already two pieces, resulting row continuous, both ends open
+4: already two pieces, resulting row noncontinuous, both ends open
+
+From these three criterions a numerical value is calculated.
+
+C&O	-resulting row continuous, both ends open
+NC&NO	-resulting row noncontinuous, both ends not open
+
+Length	NC&NO	C&NO	NC&O	C&O
+1	0x0001	0x0002	0x0008	0x0009
+2	0x0020	0x0021	0x00A0	0x00A1
+3	0x00D0	0x00D2	0x00D1	0x0400
+4	0x00D0	0x1000	0x00D1	0x1000
+>=5	0x00D0		0x00D1	
+
+Some other numbering schemes are equally good and some
+may be better.
+
+The values are added from all 8 directions.
+If a square has a value bigger than 0x1000 it is a sure winner,
+If a square has a value bigger that 0x0100 it is a good candidate
+for winning strike.
+
+When a new piece is added to the board the program updates the 
+database calculating only the changed squares. On every new 
+piece only up to 17 squares can have a value changed. 
+The changed squares are the square of a new piece itself and
+2 first empty squares to every 8 directions.
+
+When calculating new value to a changed square there is no need
+to know, what value it had from all other directions, because
+they are all added together. Just subtract the previous value
+from this direction and add the new value from this direction
+and the new value is all updated.
+
+When on Expert and Master level the program is speculating new
+pieces, the database is updated every time just like it would
+be, if there would be a real piece on it. The only difference is
+that a speculated piece is marked with 0x8FFC compared to
+0x8FFF, which indicates a real piece on it. The 17 old values 
+are stored, so in the end of the same recursion level the old
+values can be put back, and the database is like there hasn't
+been any changes on it.
+
+
+There is no evaluation function based on the number of open rows,
+or positions of pieces. The program tries to find a way to end the game. 
+On each recursive level squares are tested in an order based on
+the values of squares.
+First few attacking squares. If couple of best attacking places
+seems to lead to disaster, then quite quickly the rest of
+attacking positions are forget and defencing positions are 
+considered. They are tested in a order, and the first time
+one of them dosn't look like looser, it is returned to the called 
+recursionlevel. If no defence is enough, then the information of 
+disaster is returned.
+If the first attacking pieces result to unsettled, then a few more
+of them are tested in a hope of finding a winning position.
+In either situation the result, either a win or unsettled is returned.
+
+This algorithm is not the best one, because it can't find the
+quickest way to achieve victory, or it can't speculate like:
+if I put my piece there, the opponent has only one way to stop
+me from winning, so this position is better than that other
+which has several defence strategies. The algorithm can not 
+count how many possibilities there are, because it returns if 
+it find the first one.
+
+Defence with this algoritm is even further from perfect, but 
+that is just what I wanted. To do the minimum amount defence
+necessary not to lose silly games. The user must be left with
+open positions and many possibilities. Only if them get too
+dangerous, then the algorithm does a little defence.
+
+Expert and Master level differ only in some parameters to the
+recursive function. The recursion depth and the number of 
+pieces considered on each level.
+
+I hope, that there are not too many of you folks, who can win
+more than 60% of games on master level because then I should
+have created a little better algorithm for you.
+But I think that for a player like myself, which can win
+less than 20% of games the master level it is good enough.
+However sometimes I have to stop and wonder, why on earth the 
+computer did that. Sometimes I can guess which shortcut in
+the algorithm is to blame, but most of the times I cannot.
+I am not sure if it is my poor imagination, or is there a 
+bug in the algorithm.
+
+
+
+
