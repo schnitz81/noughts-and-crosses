@@ -2,6 +2,8 @@
 
 # Noughts and Crosses — Qt 6 Linux Desktop Port
 
+**⚠️ WORK IN PROGRESS — This port is under development and contains bugs and incomplete features.**
+
 A modern Linux desktop port of the classic 1993–1994 Windows 3.x game **Noughts and Crosses** by Pentti Moilanen (GPL v2+).
 
 ## About the game
