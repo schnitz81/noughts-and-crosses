@@ -35,8 +35,6 @@ Qt is located at `/usr/lib/qt6/` on this system.
 ## Build and run
 
 ```bash
-cd /home/tux/0x
-
 # Generate the Makefile with Qt 6 qmake
 /usr/lib/qt6/bin/qmake6 noughtsandcrosses.pro
 
