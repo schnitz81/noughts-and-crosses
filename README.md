@@ -1,4 +1,8 @@
+<div align="center">
+
 ![AI Warning](ai_warning.png)
+
+</div>
 
 # Noughts and Crosses — Qt 6 Linux Desktop Port
 
