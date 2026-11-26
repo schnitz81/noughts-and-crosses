@@ -189,7 +189,7 @@ void GameWidget::drawCell(QPainter &p, int x, int y, int owner, bool flashing,
 
     // Flashing: alternate between normal and inverted colours (like the
     // original Windows 3 bitmap inversion, Piece+2).
-    bool inverted = flashing && (((flashRemaining + flashEnd) % 2) == 1);
+    bool inverted = flashing && (((flashRemaining + flashEnd) % 2) == 0);
     QColor bg = inverted ? pieceCol : boardCol;
     QColor fg = inverted ? boardCol : pieceCol;
 
