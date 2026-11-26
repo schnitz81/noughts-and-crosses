@@ -343,6 +343,7 @@ void MainWindow::onCellClicked(int x, int y)
     bool accepted = m_game->userMove(x, y);
     if (!accepted) return;
 
+    m_board->startFlashing();
     updateTitle();
     updateMenuStates();
     m_board->update();

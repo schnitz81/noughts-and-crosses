@@ -171,9 +171,8 @@ void Game::findNeighbours(int xM, int yM,
                           bool Open[8][4], QPoint OpenPos[8][4],
                           short N[8][4], short NotPiece[8]) const
 {
-    int dir = 0;
-    int xMul = 0, yMul = 0;   // declared outside while, like the original C code
-    while (dir < 8) {
+    for (int dir = 0; dir < 8; dir += 2) {
+        int xMul = 0, yMul = 0;
         switch (dir) {
         case 0: xMul = 0; yMul = 1; break;
         case 2: xMul = 1; yMul = 0; break;
@@ -184,23 +183,25 @@ void Game::findNeighbours(int xM, int yM,
             xMul *= -1;
             yMul *= -1;
 
+            const int idx = dir + dir2;
+
             int curX = xM + xMul;
             int curY = yM + yMul;
 
-            N[dir][0] = N[dir][1] = N[dir][2] = N[dir][3] = 0;
-            Open[dir][0] = Open[dir][1] = Open[dir][2] = Open[dir][3] = false;
-            NotPiece[dir] = -1;
+            N[idx][0] = N[idx][1] = N[idx][2] = N[idx][3] = 0;
+            Open[idx][0] = Open[idx][1] = Open[idx][2] = Open[idx][3] = false;
+            NotPiece[idx] = -1;
 
             for (int i = 0; i < 4; i++) {
                 short v0 = cell(curX, curY, 0);
                 short v1 = cell(curX, curY, 1);
 
-                if (mFFC(v0) == 0x8FFC) {                 // row of piece 0
-                    if (NotPiece[dir] == 0) break;
-                    NotPiece[dir] = 1;
+                if (mFFC(v0) == 0x8FFC) {
+                    if (NotPiece[idx] == 0) break;
+                    NotPiece[idx] = 1;
                     bool bStop = false;
                     do {
-                        N[dir][i] = static_cast<short>(N[dir][i] + 1);
+                        N[idx][i] = static_cast<short>(N[idx][i] + 1);
                         curX += xMul;
                         curY += yMul;
                         if (curX < m_rectBoardLeft || curX > m_rectBoardRight ||
@@ -210,13 +211,13 @@ void Game::findNeighbours(int xM, int yM,
                         }
                         v0 = cell(curX, curY, 0);
                     } while (mFFC(v0) == 0x8FFC);
-                    if (bStop) break;   // ran off the board
-                } else if (mFFC(v1) == 0x8FFC) {          // row of piece 1
-                    if (NotPiece[dir] == 1) break;
-                    NotPiece[dir] = 0;
+                    if (bStop) break;
+                } else if (mFFC(v1) == 0x8FFC) {
+                    if (NotPiece[idx] == 1) break;
+                    NotPiece[idx] = 0;
                     bool bStop = false;
                     do {
-                        N[dir][i] = static_cast<short>(N[dir][i] + 1);
+                        N[idx][i] = static_cast<short>(N[idx][i] + 1);
                         curX += xMul;
                         curY += yMul;
                         if (curX < m_rectBoardLeft || curX > m_rectBoardRight ||
@@ -226,25 +227,23 @@ void Game::findNeighbours(int xM, int yM,
                         }
                         v1 = cell(curX, curY, 1);
                     } while (mFFC(v1) == 0x8FFC);
-                    if (bStop) break;   // ran off the board
+                    if (bStop) break;
                 }
 
-                // Re-read both slots at current position (one may be stale from do-while)
                 v0 = cell(curX, curY, 0);
                 v1 = cell(curX, curY, 1);
 
-                if (mFFC(v0) != 0x8FFC && mFFC(v1) != 0x8FFC) {   // empty spot
-                    Open[dir][i] = true;
+                if (mFFC(v0) != 0x8FFC && mFFC(v1) != 0x8FFC) {
+                    Open[idx][i] = true;
                     if (i < 2) {
-                        OpenPos[dir][i].setX(curX);
-                        OpenPos[dir][i].setY(curY);
+                        OpenPos[idx][i].setX(curX);
+                        OpenPos[idx][i].setY(curY);
                     }
                     curX += xMul;
                     curY += yMul;
                 }
             }
         }
-        dir++;
     }
 }
 
