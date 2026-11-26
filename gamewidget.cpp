@@ -187,31 +187,25 @@ void GameWidget::drawCell(QPainter &p, int x, int y, int owner, bool flashing,
     if (owner == 0 || owner == 2) pieceCol = noughtCol;
     else pieceCol = crossCol;
 
-    // Flashing: on alternate ticks hide the piece (draw board colour).
-    bool showPiece = true;
-    if (flashing)
-        showPiece = (((flashRemaining + flashEnd) % 2) == 1);
+    // Flashing: alternate between normal and inverted colours (like the
+    // original Windows 3 bitmap inversion, Piece+2).
+    bool inverted = flashing && (((flashRemaining + flashEnd) % 2) == 1);
+    QColor bg = inverted ? pieceCol : boardCol;
+    QColor fg = inverted ? boardCol : pieceCol;
 
-    // Won cells (owner 2/3) are always shown; flashing only applies to
-    // normal pieces so the winning row stays visible at game end.
-    bool isWin = (owner == 2 || owner == 3);
-    if (!showPiece && !isWin) {
-        p.fillRect(cr, boardCol);
-        return;
-    }
+    p.fillRect(cr, bg);
 
-    // Inset pieces so they don't touch the cell edges (like the original).
     int inset = m_game->m_sGridBitmapSize / 6;
     QRect inner = cr.adjusted(inset, inset, -inset, -inset);
 
     if (owner == 0 || owner == 2) { // nought: ellipse outline
-        QPen pen(pieceCol, m_game->m_noughtLineWidth, Qt::SolidLine);
+        QPen pen(fg, m_game->m_noughtLineWidth, Qt::SolidLine);
         p.setPen(pen);
         p.setBrush(Qt::NoBrush);
         if (inner.width() > 0 && inner.height() > 0)
             p.drawEllipse(inner);
     } else { // cross: two diagonals inside the inset rect
-        QPen pen(pieceCol, m_game->m_crossLineWidth, Qt::SolidLine);
+        QPen pen(fg, m_game->m_crossLineWidth, Qt::SolidLine);
         p.setPen(pen);
         p.drawLine(inner.topLeft(), inner.bottomRight());
         p.drawLine(inner.topRight(), inner.bottomLeft());
